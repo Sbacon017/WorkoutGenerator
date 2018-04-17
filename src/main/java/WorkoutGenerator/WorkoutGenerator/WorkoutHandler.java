@@ -42,7 +42,8 @@ public class WorkoutHandler {
 	
 	//Most basic: no options
 	public Workout getWorkout() {
-		return wrkFact.getSimpleRandom();
+		System.out.println("We have called getWorkout in WorkoutHandler.");
+		return wrkFact.getSimpleRandomWorkout();
 	}
 	
 	//Type of workout

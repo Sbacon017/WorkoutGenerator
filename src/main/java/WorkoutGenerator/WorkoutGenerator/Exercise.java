@@ -1,5 +1,10 @@
 package WorkoutGenerator.WorkoutGenerator;
 
+
+/*
+ * Data object class that is the cornerstone of this whole
+ * project. Maniputlated and grouped into Workouts. 
+ */
 public class Exercise  {
 	
 	//Class data
@@ -10,7 +15,7 @@ public class Exercise  {
 	private String notes;
 	private String type;
 	
-	
+	//Constructor.
 	Exercise(String name, int weight, int sets, int reps, String notes, String type){
 		this.name = name;
 		this.weight = weight;
@@ -20,6 +25,7 @@ public class Exercise  {
 		this.type = type;
 	}
 	
+	//Getters
 	public String getName() {
 		return this.name;
 	}
