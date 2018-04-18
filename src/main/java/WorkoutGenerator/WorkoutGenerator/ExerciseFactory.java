@@ -36,9 +36,11 @@ public class ExerciseFactory {
 		HashMap exHash = wrkDBFace.getExerciseData();
 		Exercise newEx = new Exercise((String)exHash.get("name"), (int)exHash.get("weight"), (int)exHash.get("sets"),
 				(int)exHash.get("reps"), (String)exHash.get("notes"), (String)exHash.get("type"));
-		return newEx;
-		
-		
+		return newEx;		
+	}
+	
+	public Exercise createExercise(String name, int weight, int sets, int reps, String notes, String type) {
+		return new Exercise(name, weight, sets, reps, notes, type);
 	}
 
 }

@@ -13,5 +13,8 @@ public interface WorkoutDatabaseInterface {
 	
 	public HashMap getExerciseData();
 	
+	public void addExToDatabase(Exercise ex);
+	
+	public void updateExerciseData(Exercise ex);
 
 }

@@ -19,10 +19,7 @@ public class DerbyWorkoutDatabase implements WorkoutDatabaseInterface {
 	// Closed after each transaction. 
 	Connection conn;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see WorkoutGenerator.WorkoutGenerator.WorkoutDatabaseInterface#getExerciseData()
-	 * 
+	/* 
 	 * Method: getExerciseData
 	 * Input: Optional, method overloaded, none necessary
 	 * Output: HashMap of Exercise-object related data from SQL table
@@ -64,7 +61,7 @@ public class DerbyWorkoutDatabase implements WorkoutDatabaseInterface {
 			}
 			
 			populateHashMap(rs, exMap);
-			
+			conn.close();
 			
 		} catch (SQLException e) {
 			System.out.println("SQLException caught in getExerciseData!");
@@ -73,6 +70,72 @@ public class DerbyWorkoutDatabase implements WorkoutDatabaseInterface {
 		
 		System.out.println("ExMap: " + exMap.toString());
 		return exMap;
+	}
+	
+	/*
+	 * Method: addExToDatabase
+	 * Input: Exercise Object
+	 * Output: New exercise data inserted into database
+	 * 
+	 * Desc: Pretty straightforward, takes an Exercise object and inputs it into the
+	 * database. Starts by getting a connection, then creates a statement. The statement
+	 * issues a single SQL INSERT query/command, then closes. The connection then closes.
+	 * Nothing is returned. 
+	 * 
+	 * DOES NOT CHECK IF EXERCISE ALREADY IN DATABASE!!
+	 */
+	public void addExToDatabase(Exercise ex) {
+		getDBConnection();
+		try {
+			System.out.println("Attempting to insert exercise into database");
+			Statement stmt = this.conn.createStatement();
+			stmt.executeUpdate("INSERT INTO EXERCISETABLE (NAME, WEIGHT, SETS, REPS, NOTES, TYPE)"
+					+ " VALUES ('" + ex.getName() + "', "
+					+ ex.getWeight() + ", " + ex.getSets() + ", " + ex.getReps()
+					+ ", '" + ex.getNotes() + "', '" + ex.getType()+ "')");
+			System.out.println("Exercise successfully added to database.");
+			stmt.close();
+			this.conn.close();
+			
+		} catch (SQLException e) {
+			System.out.println("SQL Exception caught trying to add new exercise to db.");
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	/*
+	 * Method: updateExInDatabase
+	 * Input: Exercise Object
+	 * Output: Data updated in database. 
+	 * 
+	 * Desc: Very similar method to "addExToDatabase," 
+	 * gets a connection by calling getDBConnection, then
+	 * creates a statement from it. The statement then
+	 * executes a single update command. The statement and 
+	 * connection then close. 
+	 */
+	public void updateExerciseData(Exercise ex) {
+		getDBConnection();
+		try {
+			System.out.println("Attempting to update exercise data into database");
+			Statement stmt = this.conn.createStatement();
+			String update  = "UPDATE EXERCISETABLE SET WEIGHT = " + ex.getWeight()
+					+ ", SETS = " + ex.getSets() + ", REPS = " + ex.getReps()
+					+ ", NOTES = '" + ex.getNotes() + "', TYPE = '" + ex.getType()
+					+ "' WHERE NAME = '" + ex.getName() + "'";
+			System.out.println("Update String: " + update);
+			stmt.executeUpdate(update);
+			System.out.println("Exercise successfully updated in database.");
+			stmt.close();
+			this.conn.close();
+			
+		} catch (SQLException e) {
+			System.out.println("SQL Exception caught trying to update exercise in db.");
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//Gets a connection to the DB using the Derby Embedded Driver
@@ -185,7 +248,10 @@ public class DerbyWorkoutDatabase implements WorkoutDatabaseInterface {
 	 * Input: ResultSet rs
 	 * Output: int size of the ResultSet
 	 * 
-	 * Desc: 
+	 * Desc: Finds the size of a ResultSet object, and returns the 
+	 * cursor to before the first row. 
+	 * 
+	 * ASSUMES ResultSet Object is TYPE_SCROLL_INSENSITIVE!!
 	 */
 	private int getResultSetSize(ResultSet rs) throws SQLException {
 		rs.last();
