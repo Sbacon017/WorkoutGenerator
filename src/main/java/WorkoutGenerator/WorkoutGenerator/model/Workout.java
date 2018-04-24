@@ -1,5 +1,4 @@
-package WorkoutGenerator.WorkoutGenerator;
-
+package WorkoutGenerator.WorkoutGenerator.model;
 
 /*
  * A superclass of exercise groups, primarily an 
@@ -11,7 +10,7 @@ public class Workout {
 	private Exercise[] exercises;
 	
 	//Constructor
-	Workout(Exercise[] exercises){
+	public Workout(Exercise[] exercises){
 		this.exercises = exercises;
 	}
 	

@@ -1,6 +1,8 @@
-package WorkoutGenerator.WorkoutGenerator;
+package unusedordeprecated;
 
 import java.util.HashMap;
+
+import WorkoutGenerator.WorkoutGenerator.model.Exercise;
 
 /*
  * An interface for various kinds of databases that could be used.

@@ -1,4 +1,6 @@
-package WorkoutGenerator.WorkoutGenerator;
+package unusedordeprecated;
+
+import WorkoutGenerator.WorkoutGenerator.model.Exercise;
 
 /*Class that handles the CRUD for individual Exercises.
  * Contains an instance of both ExerciseFactory Object and the

@@ -1,6 +1,8 @@
-package WorkoutGenerator.WorkoutGenerator;
+package unusedordeprecated;
 
 import java.util.HashMap;
+
+import WorkoutGenerator.WorkoutGenerator.model.Exercise;
 
 /*
  * Factory class that generates Exercise Objects.

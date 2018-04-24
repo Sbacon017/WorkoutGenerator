@@ -1,4 +1,7 @@
-package WorkoutGenerator.WorkoutGenerator;
+package unusedordeprecated;
+
+import WorkoutGenerator.WorkoutGenerator.model.Exercise;
+import WorkoutGenerator.WorkoutGenerator.model.Workout;
 
 /*
  * Generator class for Workouts. Contains an instance

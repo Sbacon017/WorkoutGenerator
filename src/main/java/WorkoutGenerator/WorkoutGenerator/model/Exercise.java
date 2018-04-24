@@ -1,0 +1,129 @@
+package WorkoutGenerator.WorkoutGenerator.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Date;
+import java.io.Serializable;
+
+/*
+ * Data object class that is the cornerstone of this whole
+ * project. Maniputlated and grouped into Workouts. 
+ */
+@Entity
+@Table(name = "exercises")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value= {"createdAt", "updatedAt"}, 
+				allowGetters = true)
+public class Exercise implements Serializable {
+	
+	//Class data
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@NotBlank
+	private String name;
+	
+	private int weight;
+	private int sets;
+	private int reps;
+	private String notes;
+	private String type;
+	
+	@Column(nullable = false, updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
+	private Date createdAt;
+	
+	@Column(nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@LastModifiedDate
+	private Date updatedAt;
+	
+	
+	//Constructor.
+	public Exercise() {
+		
+	}
+	
+	public Exercise(String name, int weight, int sets, int reps, String notes, String type){
+		this.name = name;
+		this.weight = weight;
+		this.sets = sets;
+		this.reps = reps;
+		this.notes = notes;
+		this.type = type;
+	}
+	
+	//Getters
+	public Long getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getWeight() {
+		return this.weight;
+	}
+	
+	public int getSets() {
+		return this.sets;
+	}
+	
+	public int getReps() {
+		return this.reps;
+	}
+	
+	public String getNotes() {
+		return this.notes;
+	}
+	
+	public String getType() {
+		return this.type;
+	}
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	
+	
+	//Setters
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+	
+	public void setSets(int sets) {
+		this.sets = sets;
+	}
+	
+	public void setReps(int reps) {
+		this.reps = reps;
+	}
+	
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+}

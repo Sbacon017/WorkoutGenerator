@@ -1,6 +1,9 @@
-package WorkoutGenerator.WorkoutGenerator;
+package unusedordeprecated;
 
 import java.util.*;
+
+import WorkoutGenerator.WorkoutGenerator.model.Exercise;
+
 import java.sql.*;
 
 /*
