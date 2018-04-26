@@ -1,12 +1,17 @@
 package WorkoutGenerator.WorkoutGenerator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.io.Serializable;
 
 /*
@@ -23,7 +28,8 @@ public class Exercise implements Serializable {
 	//Class data
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(name = "exercise_id")
+	private Long exerciseId;
 	
 	@NotBlank
 	private String name;
@@ -34,16 +40,22 @@ public class Exercise implements Serializable {
 	private String notes;
 	private String type;
 	
+	
 	@Column(nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
+	@CreationTimestamp
 	private Date createdAt;
+	
 	
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@LastModifiedDate
+	@UpdateTimestamp
 	private Date updatedAt;
 	
+
+	@ManyToMany(mappedBy = "exercises")
+	private Set<Workout> workouts = new HashSet<>();
+
 	
 	//Constructor.
 	public Exercise() {
@@ -61,7 +73,7 @@ public class Exercise implements Serializable {
 	
 	//Getters
 	public Long getId() {
-		return id;
+		return exerciseId;
 	}
 	
 	public String getName() {
@@ -124,6 +136,10 @@ public class Exercise implements Serializable {
 	
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public void addWorkout(Workout workout) {
+		this.workouts.add(workout);
 	}
 
 }
