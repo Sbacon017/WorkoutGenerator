@@ -1,16 +1,29 @@
+
 <!DOCTYPE html>
-
 <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple UI for Workout App</title>
+  </head>
+  <body>
+    <label for="workout">Select action to take: </label>
+    <select id="workout">
+      <option value="">--Make a choice--</option>
+      <option value="getExercises">See All Exercises</option>
+      <option value="getExByType">See Exercises By Type</option>
+      <option value="getOneExercise">See One Specific Exercise</option>
+      <option value="updateExercise">Update Exercise</option>
+      <option value="getWorkout">Get Workout</option>
+    </select>
 
-<title>HOMEPAGE</title>
+    <p1 id="inputOptions"></p1>
+    <br>
+    <p2 id="moreInputOptions"></p2>
+    <br>
+    <p3 id="results"></p3>
 
-<h1></h1>
-<h2></h2>
-
-<body>
-
-<button>Change User</button>
-<script src="main.js"></script>
-</body>
-
+    <script src="Formatters.js"></script>
+    <script src="SelectorFunctions.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
