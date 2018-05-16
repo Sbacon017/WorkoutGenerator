@@ -49,6 +49,8 @@ public class ExerciseHandler {
 		exercise.setReps(ex.getReps());
 		exercise.setSets(ex.getSets());
 		exercise.setWeight(ex.getWeight());
+		exercise.setName(ex.getName());
+		exercise.setType(ex.getType());
 		return exr.save(exercise);
 	}
 	

@@ -20,6 +20,8 @@ import java.util.List;
 
 import java.io.*;
 
+import org.json.*;
+
 @RestController
 @RequestMapping("/exercise")
 public class ExerciseController {
@@ -30,6 +32,10 @@ public class ExerciseController {
 	@Autowired
 	WorkoutRepository workoutRepository;
 	
+	//Id of the current exercise, assigned when a single exercise is 
+	// retrieved via get request.
+	private long currentEx;
+	
 	//Get all exercises
 	@GetMapping("/exercises")
 	public List<Exercise> getAllExercises(){
@@ -38,8 +44,18 @@ public class ExerciseController {
 	
 	//Create a new exercise
 	@PostMapping("/exercises")
-	public Exercise createExercise(@Valid @RequestBody Exercise exercise) {
-		return ExerciseHandler.createNewExercise(exerciseRepository, exercise);
+	public Exercise createExercise(@Valid @RequestBody String exercise) {
+		System.out.println(exercise);
+		try {
+		JSONObject obj = new JSONObject(exercise);
+		Exercise newEx = new Exercise();
+		newEx.setExercisePropsFromJSON(obj);
+		return ExerciseHandler.createNewExercise(exerciseRepository, newEx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Exercise();
+		}
+		
 	}
 	
 	//Get a single exercise by id
@@ -51,7 +67,9 @@ public class ExerciseController {
 	//Get a single exercise by name
 	@GetMapping("exercises/name/{name}")
 	public Exercise getExByName(@PathVariable(value="name") String name) {
-		return ExerciseHandler.getExByName(exerciseRepository, name);
+		Exercise ex = ExerciseHandler.getExByName(exerciseRepository, name);
+		this.currentEx = ex.getId();
+		return ex;
 	}
 	
 	//Get all exercises by type
@@ -61,17 +79,25 @@ public class ExerciseController {
 	}
 	
 	// Update.
-	@PutMapping("exercises/{id}")
-	public Exercise updateExercise(@PathVariable(value="id") Long exerciseId,
-									@Valid @RequestBody Exercise exercise) {
-		return ExerciseHandler.updateExercise(exerciseRepository, exercise, exerciseId);
+	@PutMapping("exercises")
+	public Exercise updateExercise(@Valid @RequestBody String exercise) {
+		try {
+			JSONObject obj = new JSONObject(exercise);
+			Exercise newEx = new Exercise();
+			newEx.setExercisePropsFromJSON(obj);
+			//WRONG THIS IS WRONG THAT WILL BE A NEW ID NOT THE OLD ONE!!
+			return ExerciseHandler.updateExercise(exerciseRepository, newEx, this.currentEx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Exercise();
+		}
 		
 	}
 	
 	//Delete an exercise
-	@DeleteMapping("/exercises/{id}")
-	public ResponseEntity<?> deleteExercise(@PathVariable(value="id") Long exerciseId){
-		return ExerciseHandler.deleteExercise(exerciseRepository, exerciseId);
+	@DeleteMapping("/exercises/delete")
+	public ResponseEntity<?> deleteExercise(){
+		return ExerciseHandler.deleteExercise(exerciseRepository, this.currentEx);
 	}
 	
 	// Get a random workout with default num exercises
@@ -99,6 +125,7 @@ public class ExerciseController {
 		return WorkoutHandler.getTypedWorkout(exerciseRepository, workoutRepository, numEx, type);
 	}
 	
+
 
 
 }

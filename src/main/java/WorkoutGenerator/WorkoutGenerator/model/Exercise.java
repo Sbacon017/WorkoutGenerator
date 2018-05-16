@@ -13,10 +13,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.io.Serializable;
+import org.json.*;
 
 /*
  * Data object class that is the cornerstone of this whole
- * project. Maniputlated and grouped into Workouts. 
+ * project. Manipulated and grouped into Workouts. 
  */
 @Entity
 @Table(name = "exercises")
@@ -32,6 +33,7 @@ public class Exercise implements Serializable {
 	private Long exerciseId;
 	
 	@NotBlank
+	@Column(unique = true)
 	private String name;
 	
 	private int weight;
@@ -57,7 +59,7 @@ public class Exercise implements Serializable {
 	private Set<Workout> workouts = new HashSet<>();
 
 	
-	//Constructor.
+	//Constructors.
 	public Exercise() {
 		
 	}
@@ -69,6 +71,21 @@ public class Exercise implements Serializable {
 		this.reps = reps;
 		this.notes = notes;
 		this.type = type;
+	}
+	
+	public void setExercisePropsFromJSON(JSONObject jobject) {
+		try {
+		setName(jobject.getString("name"));
+		setWeight(jobject.getInt("weight"));
+		setSets(jobject.getInt("sets"));
+		setReps(jobject.getInt("reps"));
+		setNotes(jobject.getString("notes"));
+		setType(jobject.getString("type"));
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//Getters

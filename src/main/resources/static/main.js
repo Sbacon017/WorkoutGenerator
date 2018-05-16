@@ -13,7 +13,9 @@ var results = document.getElementById("results");
 // with the back end
 var xhttp = new XMLHttpRequest();
 
-
+// The list of attributes that an object (exercise) can have
+var attributeNameArray = ["name", "type", "sets",
+  "reps", "weight", "notes"];
 
 // Add event listener to selector
 selector.addEventListener("change", onActionSelect);
@@ -22,6 +24,8 @@ selector.addEventListener("change", onActionSelect);
 // Function that handles initial action selection
 function onActionSelect(){
   var choice = selector.value;
+
+  resetDynamicContent();
 
   switch (choice){
 
@@ -49,10 +53,21 @@ function onActionSelect(){
       getOneExercise(xhttp, results, name);*/
       break;
 
+    case "createExercise" :
+      getMultiInput(moreInputOptions, attributeNameArray, "onCreateSubmit", null);
+      break;
+
     case "updateExercise" :
+      getInput(inputOptions, "Name", "onFindForUpdate");
+      break;
+
+    case "deleteExercise" :
+      getInput(inputOptions, "Name", "onFindForDelete");
       break;
 
     case "getWorkout" :
+      getMultiInput(inputOptions, ["Type", "Number Of Exercises"],
+                    "onWorkoutSubmit", null);
       break;
   }
 
@@ -70,4 +85,86 @@ function onSubmitForExerciseType(){
   console.log("onSubmitForExerciseType called!");
   var userInput = document.getElementById('input1').value;
   getExerciseType(xhttp, results, userInput);
+}
+
+async function onSubmitUpdate(){
+  console.log("onSubmitUpdate called!");
+  var exercise = {};
+  var numberTypes = ["weight", "reps", "sets"];
+  for (var i = 0; i < attributeNameArray.length; i++){
+    console.log("Iterating through exercise creation..." + i);
+    var attribute = attributeNameArray[i];
+    var value = document.getElementById(attribute).value;
+    exercise[attribute] = value;
+    console.log(attributeNameArray[i] + exercise.attribute);
+  }
+  console.log("Sending exercie update to server...");
+  var success = await putExerciseUpdate(xhttp, exercise);
+  if (success === true){
+    results.innerHTML = "Success!";
+  } else {
+    results.innerHTML = errorOccurred("Something went wrong...");
+  }
+}
+
+
+function onFindForUpdate(){
+  console.log("onFindForUpdate called!");
+  var userInput = document.getElementById('input1').value;
+  getMultiInput(moreInputOptions, attributeNameArray, "onSubmitUpdate", userInput);
+}
+
+async function onCreateSubmit(){
+  console.log("onCreateSubmit called!");
+  var exercise = {};
+  for (var i = 0; i < attributeNameArray.length; i++){
+    console.log("Iterating through exercise creation..." + i);
+    var attribute = attributeNameArray[i];
+    var value = document.getElementById(attribute).value;
+    exercise[attribute] = value;
+    console.log(attributeNameArray[i] + exercise.attribute);
+  }
+  var success = await postNewExercise(xhttp, exercise);
+  if (success === true){
+    results.innerHTML = "Success!";
+  } else {
+    results.innerHTML = errorOccurred("Something went wrong...");
+  }
+}
+
+function onFindForDelete(){
+  getDeleteConfirmation(xhttp, results, moreInputOptions,
+            document.getElementById("input1").value);
+}
+
+function onDeleteConfirmed(){
+  deleteExercise(xhttp);
+}
+
+function onWorkoutSubmit(){
+  console.log("onWorkoutSubmit called!");
+  var typeVal = document.getElementById("Type").value;
+  var numExVal = document.getElementById("Number Of Exercises").value;
+  if (typeVal !== null && typeVal !== "Type"){
+    var type = typeVal;
+  }
+  if (numExVal !== null && numExVal !== "Number Of Exercises"){
+    var numEx = numExVal;
+  }
+  if (type && numEx){
+    getNumTypeWorkout(numEx, type, xhttp, results);
+  } else if (type){
+    getTypeWorkout(type, xhttp, results);
+  } else if (numEx){
+    getNumWorkout(numEx, xhttp, results);
+  } else {
+    getDefaultRandomWorkout(xhttp, results);
+  }
+}
+
+function resetDynamicContent(){
+  console.log("Resetting dynamic page content.");
+  inputOptions.innerHTML = "";
+  moreInputOptions.innerHTML = "";
+  results.innerHTML = "";
 }
