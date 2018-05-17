@@ -8,6 +8,8 @@ var selector = document.querySelector("select");
 var inputOptions = document.getElementById("inputOptions");
 var moreInputOptions = document.getElementById("moreInputOptions");
 var results = document.getElementById("results");
+var email = document.getElementById("email");
+var error = document.getElementById("error");
 
 // The XMLHttpRequest object that will handle all the back and forth
 // with the back end
@@ -48,9 +50,6 @@ function onActionSelect(){
       getInput(inputOptions, "Name", "onSubmitForExercise");
       var submit = document.getElementById("submit1");
       console.log('Submit = ' + submit);
-      /*console.log("Adding event listener for getOneExercise");
-      submit.addEventListener("submit", onSubmitForExercise);
-      getOneExercise(xhttp, results, name);*/
       break;
 
     case "createExercise" :
@@ -77,13 +76,13 @@ function onActionSelect(){
 
 function onSubmitForExercise(){
   console.log("onSubmitForExercise called!");
-  var userInput = document.getElementById('input1').value;
+  var userInput = document.getElementById('Name').value;
   getOneExercise(xhttp, results, userInput);
 }
 
 function onSubmitForExerciseType(){
   console.log("onSubmitForExerciseType called!");
-  var userInput = document.getElementById('input1').value;
+  var userInput = document.getElementById('Type').value;
   getExerciseType(xhttp, results, userInput);
 }
 
@@ -160,6 +159,20 @@ function onWorkoutSubmit(){
   } else {
     getDefaultRandomWorkout(xhttp, results);
   }
+  getInput(email, "Email", "onSubmitEmail");
+}
+
+function onSubmitEmail(){
+  console.log("OnSubmitEmail called!");
+  content = results.innerHTML;
+  emailInput = document.getElementById("Email").value;
+  console.log(content + "\n" + emailInput);
+  if(sendResultsToEmail(xhttp, content, emailInput)){
+    resetDynamicContent();
+    results.innerHTML = "Success!";
+  } else {
+    error.innerHTML = errorOccurred("Something broke... Try again?");
+  }
 }
 
 function resetDynamicContent(){
@@ -167,4 +180,6 @@ function resetDynamicContent(){
   inputOptions.innerHTML = "";
   moreInputOptions.innerHTML = "";
   results.innerHTML = "";
+  email.innerHTML = "";
+  error.innerHTML = "";
 }

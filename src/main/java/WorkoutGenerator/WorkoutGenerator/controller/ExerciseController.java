@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import WorkoutGenerator.WorkoutGenerator.model.Exercise;
@@ -14,6 +15,7 @@ import WorkoutGenerator.WorkoutGenerator.repository.ExerciseRepository;
 import WorkoutGenerator.WorkoutGenerator.repository.WorkoutRepository;
 import handlers.ExerciseHandler;
 import handlers.WorkoutHandler;
+import handlers.EmailHandler;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,6 +33,9 @@ public class ExerciseController {
 	
 	@Autowired
 	WorkoutRepository workoutRepository;
+	
+	@Autowired
+	public JavaMailSender sender;
 	
 	//Id of the current exercise, assigned when a single exercise is 
 	// retrieved via get request.
@@ -125,6 +130,16 @@ public class ExerciseController {
 		return WorkoutHandler.getTypedWorkout(exerciseRepository, workoutRepository, numEx, type);
 	}
 	
+	// Sends an email of the results section to the specified email
+	@PostMapping("/email/{email}")
+	public String sendEmail(@PathVariable(value = "email") String email, 
+			@Valid @RequestBody String content) {
+		System.out.println(email);
+		System.out.println(content);
+		EmailHandler emHandler = new EmailHandler();
+		emHandler.sendMail(sender, email, content);
+		return "Success!";
+	}
 
 
 

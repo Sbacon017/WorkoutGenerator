@@ -54,7 +54,7 @@ function addInput(inputName, functionToPerform){
   var returnString = "<form onsubmit=\""
     + functionToPerform + "(); return false;\">"
     + "<br>Enter " + inputName + ":<br>"
-    + "<input type=\'text\' id='input1'><br>"
+    + "<input type=\'text\' id='"+ inputName + "'><br>"
     + "<input type=\'submit\' value=\'Submit\' id=\'submit1\'>"
     + "</form>";
   return returnString;

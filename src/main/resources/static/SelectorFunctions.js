@@ -10,7 +10,7 @@ function getXhttpResponse(xhttp){
 }
 
 function getInput(inputOptions, inputName, functionToPerform){
-  console.log("Adding input options to p1");
+  console.log("Adding input options to" + inputOptions);
   inputOptions.innerHTML = addInput(inputName, functionToPerform);
 }
 
@@ -25,7 +25,8 @@ async function getMultiInput(targetLocation, inputNameArray, functionToPerform, 
     var retrievedData = null;
   }
   console.log("Exercise data retrieved: " + retrievedData);
-  targetLocation.innerHTML = addMultiInput(inputNameArray, functionToPerform, retrievedData);
+  targetLocation.innerHTML = addMultiInput(inputNameArray, functionToPerform,
+                                            retrievedData);
 }
 
 // For getting a list of exercises ("getExercises")
@@ -198,5 +199,19 @@ async function getDefaultRandomWorkout(xhttp, results){
     results.innerHTML = formatWorkout(resolved);
   } catch (e){
     console.log("Error occurred in getDefaultRandomWorkout!");
+  }
+}
+
+async function sendResultsToEmail(xhttp, content, emailInput){
+  try {
+    console.log("sendResultsToEmail called!");
+    console.log(content);
+    console.log(emailInput);
+    xhttp.open("POST", "http://localhost:8080/exercise/email/" + emailInput, true);
+    xhttp.send(content);
+    return true;
+  } catch (e){
+    console.log("Error occurred in sendResultsToEmail!");
+    return false;
   }
 }
