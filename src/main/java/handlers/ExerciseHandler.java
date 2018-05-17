@@ -13,6 +13,7 @@ import java.util.List;
 
 import java.io.*;
 
+
 public class ExerciseHandler {
 	
 	// Get all exercises

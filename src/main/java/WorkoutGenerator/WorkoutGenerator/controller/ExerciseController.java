@@ -23,7 +23,10 @@ import java.util.List;
 import java.io.*;
 
 import org.json.*;
-
+/*
+ * ExerciseController is the RestController for the whole program,
+ * and directs all incoming requests to their respective handlers.
+ */
 @RestController
 @RequestMapping("/exercise")
 public class ExerciseController {
