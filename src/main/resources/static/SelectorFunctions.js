@@ -57,7 +57,7 @@ async function getExerciseType(xhttp, results, inputOptions){
 
 
 async function getOneExercise(xhttp, results, userInput){
-  console.log("Entered getOneExercie.");
+  console.log("Entered getOneExercise.");
   console.log("Input = " + userInput);
   xhttp.open("GET", "http://localhost:8080/exercise/exercises/name/"
               + userInput, true);

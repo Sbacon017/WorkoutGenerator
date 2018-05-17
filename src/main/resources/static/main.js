@@ -109,7 +109,7 @@ async function onSubmitUpdate(){
 
 function onFindForUpdate(){
   console.log("onFindForUpdate called!");
-  var userInput = document.getElementById('input1').value;
+  var userInput = document.getElementById('Name').value;
   getMultiInput(moreInputOptions, attributeNameArray, "onSubmitUpdate", userInput);
 }
 

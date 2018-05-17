@@ -40,12 +40,12 @@ function addHeader(needHeader){
 
 // Adds a single exercises data to a string
 function addExercise(returnString, parsedResults){
-  returnString += "<tr><th>" + parsedResults.name + "</th>"
-                  + "<th>" +parsedResults.type + "</th>"
-                  + "<th>" +parsedResults.sets + "</th>"
-                  + "<th>" +parsedResults.reps + "</th>"
-                  + "<th>" +parsedResults.weight + "</th>"
-                  + "<th>" +parsedResults.notes + "</th></tr>";
+  returnString += "<tr><td>" + parsedResults.name + "</td>"
+                  + "<td>" +parsedResults.type + "</td>"
+                  + "<td>" +parsedResults.sets + "</td>"
+                  + "<td>" +parsedResults.reps + "</td>"
+                  + "<td>" +parsedResults.weight + "</td>"
+                  + "<td>" +parsedResults.notes + "</td>";
   return returnString;
 }
 
@@ -105,7 +105,7 @@ function addMultiInput(inputNameArray, functionToPerform, retrievedData){
 
     console.log("Value = " + value);
 
-    returnString += "<label for=\"" + attName + "\">" + attName + "</label>"
+    returnString += "<label for=\"" + attName + "\">" + attName.toUpperCase() + ": </label>"
       +"<input type=\'" + inputType + "\'"
       + "id=\'" + attName + "\' value=\'"
       + value + "\'><br>"
