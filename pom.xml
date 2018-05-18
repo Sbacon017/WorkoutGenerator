@@ -54,6 +54,13 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>1.4.3.RELEASE</version>
 		</dependency>
+		<dependency>
+		<!-- https://mvnrepository.com/artifact/com.spotify/docker-maven-plugin -->
+		    <groupId>com.spotify</groupId>
+		    <artifactId>docker-maven-plugin</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+		
 
 	</dependencies>
 
